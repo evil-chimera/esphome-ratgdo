@@ -144,12 +144,16 @@ binary_sensor:
     filters:
       - delayed_on_off: 500ms
     on_press:
+      - delay: 50ms
       - if:
           condition:
             binary_sensor.is_off: ${id_prefix}_dry_contact_close
           then:
             - cover.open: ${id_prefix}_garage_door
-          else:
+      - if:
+          condition:
+            binary_sensor.is_on: ${id_prefix}_dry_contact_close
+          then:
             - cover.toggle: ${id_prefix}_garage_door
   - platform: gpio
     id: "${id_prefix}_dry_contact_close"
@@ -164,6 +168,7 @@ binary_sensor:
     filters:
       - delayed_on_off: 500ms
     on_press:
+      - delay: 50ms
       - if:
           condition:
             binary_sensor.is_off: ${id_prefix}_dry_contact_open
